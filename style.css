@@ -1,0 +1,425 @@
+ :root {
+    --green: #1a6b2e;
+    --green-light: #22883a;
+    --gold: #d4a017;
+    --gold-bright: #f5c400;
+    --red: #c0392b;
+    --bg-dark: #0a0d08;
+    --bg-panel: #0f1a10;
+    --bg-card: #111e12;
+    --text-primary: #f0ead2;
+    --text-muted: #8a9e8d;
+    --border: #1e3a20;
+    --border-gold: #3a2e08;
+    --status-green: #2ecc71;
+    --status-gold: #f5c400;
+    --status-red: #e74c3c;
+    --status-orange: #e67e22;
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+  body {
+    font-family: 'Inter', sans-serif;
+    background: url("seneglamonu.jpg");
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+ 
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #080f09 0%, #0f1a10 50%, #0a120b 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 32px;
+    height: 88px;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg, transparent 0, transparent 48px,
+      rgba(212,160,23,0.04) 48px, rgba(212,160,23,0.04) 49px
+    );
+    pointer-events: none;
+  }
+ 
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* LOGO CERCLE */
+.africa-logo {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;        /* 🔵 fait le cercle */
+    object-fit: cover;         /* évite déformation */
+}
+
+/* petit effet vivant */
+@keyframes pulseLogo {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+ 
+  .logo-text h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+ 
+  .logo-text .subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.58rem;
+    color: var(--gold);
+    letter-spacing: 0.22em;
+    margin-top: 3px;
+  }
+ 
+  .logo-text .tagline {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+ 
+  .clock-area {
+    text-align: center;
+  }
+ 
+  #clock {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--gold-bright);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 20px rgba(245,196,0,0.5);
+    line-height: 1;
+  }
+ 
+  #clock-date {
+    font-size: 0.72rem;
+    color: var(--gold);
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+ 
+  .weather-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 10px 18px;
+  }
+ 
+  .weather-icon { font-size: 2rem; }
+ 
+  .weather-info .temp {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+ 
+  .weather-info .desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+ 
+  .header-mask-icon {
+    width: 60px;
+    height: 60px;
+    opacity: 0.35;
+    filter: sepia(1) saturate(2) hue-rotate(15deg);
+  }
+ 
+  /* ─── NAV TABS ─── */
+  .nav-bar {
+    background: #0c150d;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+  }
+ 
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+ 
+  .tab-btn.departs { background: var(--green); color: #fff; }
+  .tab-btn.arrivees { background: var(--gold); color: #1a0e00; }
+  .tab-btn.active { box-shadow: 0 0 16px rgba(255,255,255,0.2); }
+  .tab-btn:not(.active) { opacity: 0.55; }
+  .tab-btn:hover { opacity: 1; }
+ 
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+ 
+  .search-wrap input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 8px;
+    padding: 8px 40px 8px 14px;
+    font-size: 0.82rem;
+    width: 260px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+ 
+  .search-wrap input:focus { border-color: var(--gold); }
+  .search-wrap input::placeholder { color: var(--text-muted); }
+ 
+  .search-wrap .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+ 
+  /* ─── MAIN GRID ─── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px 32px;
+  }
+ 
+  /* ─── FLIGHT PANEL ─── */
+  .flight-panel {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+ 
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+ 
+  .panel-header.green { background: var(--green); }
+  .panel-header.gold { background: var(--gold); color: #1a0e00; }
+  .panel-header .icon { font-size: 1.3rem; }
+ 
+  /* ─── TABLE ─── */
+  .flight-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+  }
+ 
+  .flight-table thead tr {
+    background: rgba(0,0,0,0.4);
+  }
+ 
+  .flight-table th {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+ 
+  .flight-table tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+ 
+  .flight-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+ 
+  .flight-table td {
+    padding: 13px 12px;
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+ 
+  .flight-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+  }
+ 
+  .airline-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+ 
+  .airline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+ 
+  .dest { font-weight: 500; color: var(--text-primary); }
+  .time { font-family: 'Orbitron', monospace; font-size: 0.78rem; color: #b0c4b3; }
+  .gate { font-weight: 700; color: var(--gold); font-size: 0.8rem; }
+ 
+  .status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+ 
+  .s-embarquement { color: #27ae60; background: rgba(39,174,96,0.12); border: 1px solid rgba(39,174,96,0.3); }
+  .s-heure        { color: var(--gold-bright); background: rgba(245,196,0,0.1); border: 1px solid rgba(245,196,0,0.25); }
+  .s-retard       { color: var(--status-red); background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.25); }
+  .s-arrive       { color: #2ecc71; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.25); }
+  .s-atterri      { color: var(--gold-bright); background: rgba(245,196,0,0.1); border: 1px solid rgba(245,196,0,0.25); }
+  .s-approche     { color: #f39c12; background: rgba(243,156,18,0.1); border: 1px solid rgba(243,156,18,0.25); }
+  .s-prevu        { color: var(--text-muted); background: rgba(138,158,141,0.08); border: 1px solid rgba(138,158,141,0.2); }
+ 
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080f09;
+    border-top: 1px solid var(--border-gold);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 16px;
+  }
+ 
+  .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+ 
+  .footer-item .fi-icon {
+    font-size: 1.3rem;
+    color: var(--gold);
+  }
+ 
+  .footer-item strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+ 
+  .footer-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+  }
+ 
+  /* ─── TICKER ─── */
+  .ticker {
+    background: var(--green);
+    padding: 6px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+ 
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #fff;
+    padding-right: 80px;
+  }
+ 
+  @keyframes ticker {
+    from { transform: translateX(100vw); }
+    to   { transform: translateX(-100%); }
+  }
+ 
+  /* ─── SINGLE VIEW (mobile/tab) ─── */
+  .single-panel { display: none; }
+ 
+  @media (max-width: 900px) {
+    header {
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      padding: 0 16px;
+      height: auto;
+      padding: 12px 16px;
+    }
+    .header-mask-icon { display: none; }
+    .main-grid { grid-template-columns: 1fr; padding: 12px 16px; gap: 16px; }
+    .flight-table th, .flight-table td { padding: 8px 8px; font-size: 0.72rem; }
+    footer { flex-wrap: wrap; gap: 12px; padding: 12px 16px; }
+    .footer-divider { display: none; }
+  }
+ 
+  /* ─── BLINKING DOT ─── */
+  .live-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: #2ecc71;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+ 
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+ 
+  /* ─── PULSE ROW ─── */
+  .row-boarding td { background: rgba(39,174,96,0.06); }
+  .row-delayed  td { background: rgba(231,76,60,0.06); }

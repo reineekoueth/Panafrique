@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aéroport Agostinho Neto</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<body>
+ 
+<!-- ─── TICKER ─── -->
+<div class="ticker">
+  <span class="ticker-inner">
+    ✈ Bienvenue à l'Aéroport Panafricain International — Connecter l'Afrique, Ouvrir le Monde &nbsp;|&nbsp; 
+    ✈ Pour toute information, rendez-vous au guichet du terminal A02.
+    ✈ Bon voyage et rendez-vous sur notre site 
+  </span>
+</div>
+ 
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="logo-area">
+    <img src="logo.jpg" alt="Logo Afrique" class="africa-logo">
+</div>
+ 
+    <div class="logo-text">
+      <h1>AÉROPORT PANAFRICAIN</h1>
+      <div class="subtitle">INTERNATIONAL</div>
+      <div class="tagline">Connecter l'Afrique, Ouvrir le Monde</div>
+    </div>
+  </div>
+ 
+  <div></div><!-- spacer -->
+ 
+  <div class="clock-area">
+    <div id="clock">00:00:00</div>
+    <div id="clock-date">Chargement...</div>
+  </div>
+ 
+  <div class="weather-area">
+    <div class="weather-icon">⛅</div>
+    <div class="weather-info">
+      <div class="temp">28°C</div>
+      <div class="desc">Ciel dégagé<br></div>
+    </div>
+  </div>
+</header>
+ 
+<!-- ─── NAV ─── -->
+<div class="nav-bar">
+  <button class="tab-btn departs active" onclick="showTab('departs', this)">✈ Départs</button>
+  <button class="tab-btn arrivees" onclick="showTab('arrivees', this)">✈ Arrivées</button>
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Rechercher une destination..." oninput="filterFlights()">
+    <span class="search-icon">🔍</span>
+  </div>
+</div>
+ 
+<!-- ─── FLIGHT BOARD ─── -->
+<div class="main-grid" id="main-grid">
+ 
+  <!-- DÉPARTS -->
+  <div class="flight-panel" id="panel-departs">
+    <div class="panel-header green">
+      <span class="icon">✈</span> DÉPARTS <span class="live-dot"></span>
+    </div>
+    <table class="flight-table" id="table-departs">
+      <thead>
+        <tr>
+          <th>Vol</th>
+          <th>Compagnie</th>
+          <th>Destination</th>
+          <th>Heure</th>
+          <th>Porte</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody id="body-departs"></tbody>
+    </table>
+  </div>
+ 
+  <!-- ARRIVÉES -->
+  <div class="flight-panel" id="panel-arrivees">
+    <div class="panel-header gold">
+      <span class="icon">✈</span> ARRIVÉES <span class="live-dot" style="background:#1a0e00"></span>
+    </div>
+    <table class="flight-table" id="table-arrivees">
+      <thead>
+        <tr>
+          <th>Vol</th>
+          <th>Compagnie</th>
+          <th>Origine</th>
+          <th>Heure</th>
+          <th>Porte</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody id="body-arrivees"></tbody>
+    </table>
+  </div>
+ 
+</div>
+ 
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-item">
+    <div class="fi-icon">🛡</div>
+    <div><strong>Sécurité</strong>Notre priorité</div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-item">
+    <div class="fi-icon">🤝</div>
+    <div><strong>Hospitalité</strong>Notre tradition</div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-item">
+    <div class="fi-icon">⭐</div>
+    <div><strong>Excellence</strong>Notre engagement</div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-item">
+    <div class="fi-icon">🌍</div>
+    <div><strong>Connectivité</strong>Notre mission</div>
+  </div>
+</footer>
+ 
+<script>
+// ─── DATA ───
+const DEPARTS = [
+  { vol:'AF201', compagnie:'Air Afrique',           color:'#27ae60', dest:'Dakar',         heure:'08:30', porte:'A01', statut:'EMBARQUEMENT', cls:'s-embarquement', row:'row-boarding' },
+  { vol:'KQ102', compagnie:'Kenya Airways',          color:'#c0392b', dest:'Nairobi',        heure:'09:15', porte:'B03', statut:'À L\'HEURE',    cls:'s-heure', row:'' },
+  { vol:'AT567', compagnie:'Royal Air Maroc',        color:'#c0392b', dest:'Casablanca',     heure:'10:00', porte:'C05', statut:'RETARDÉ',       cls:'s-retard', row:'row-delayed' },
+  { vol:'ET445', compagnie:'Ethiopian Airlines',     color:'#27ae60', dest:'Addis-Abeba',    heure:'11:20', porte:'D02', statut:'À L\'HEURE',    cls:'s-heure', row:'' },
+  { vol:'SA890', compagnie:'Air coté d ivoire',      color:'#27ae60', dest:'Abidjan',        heure:'12:10', porte:'A08', statut:'EMBARQUEMENT', cls:'s-embarquement', row:'row-boarding' },
+  { vol:'SN215', compagnie:'Senegal Airlines',       color:'#27ae60', dest:'Abidjan',        heure:'13:45', porte:'B07', statut:'À L\'HEURE',    cls:'s-heure', row:'' },
+  { vol:'WB305', compagnie:'Asky Airlines',          color:'#f5c400', dest:'Lomé',           heure:'14:30', porte:'C03', statut:'À L\'HEURE',    cls:'s-heure', row:'' },
+];
+ 
+const ARRIVEES = [
+  { vol:'AF212', compagnie:'Air France',       color:'#27ae60', origine:'Paris CDG', heure:'08:20', porte:'A02', statut:'ARRIVÉ',       cls:'s-arrive', row:'' },
+  { vol:'BA055', compagnie:'British Airways',  color:'#003087', origine:'Londres',   heure:'09:05', porte:'B04', statut:'ARRIVÉ',       cls:'s-arrive', row:'' },
+  { vol:'TK589', compagnie:'Turkish Airlines', color:'#c0392b', origine:'Istanbul',  heure:'09:50', porte:'C06', statut:'ATTERRI',      cls:'s-atterri', row:'' },
+  { vol:'QR139', compagnie:'Qatar Airways',    color:'#8b1a4a', origine:'Doha',      heure:'10:40', porte:'D01', statut:'EN APPROCHE',  cls:'s-approche', row:'' },
+  { vol:'EK789', compagnie:'Emirates',         color:'#c0392b', origine:'Dubai',     heure:'11:25', porte:'A07', statut:'EN APPROCHE',  cls:'s-approche', row:'' },
+  { vol:'LH573', compagnie:'Senegal Airlines', color:'#f5c400', origine:'Dakar', heure:'12:05', porte:'B06', statut:'PRÉVU',        cls:'s-prevu', row:'' },
+  { vol:'IB322', compagnie:'Nigeria',           color:'#c0392b', origine:'Lagos',    heure:'13:00', porte:'C02', statut:'PRÉVU',        cls:'s-prevu', row:'' },
+];
+ 
+// ─── RENDER ───
+function renderTable(data, bodyId, type) {
+  const q = document.getElementById('search').value.toLowerCase();
+  const body = document.getElementById(bodyId);
+  const col3 = type === 'depart' ? 'dest' : 'origine';
+  body.innerHTML = data
+    .filter(f => {
+      if (!q) return true;
+      return f.vol.toLowerCase().includes(q)
+          || f.compagnie.toLowerCase().includes(q)
+          || f[col3].toLowerCase().includes(q);
+    })
+    .map(f => `
+      <tr class="${f.row}">
+        <td><span class="flight-num">${f.vol}</span></td>
+        <td>
+          <div class="airline-cell">
+            <span class="airline-dot" style="background:${f.color}"></span>
+            <span style="color:${f.color}">${f.compagnie}</span>
+          </div>
+        </td>
+        <td><span class="dest">${f[col3]}</span></td>
+        <td><span class="time">${f.heure}</span></td>
+        <td><span class="gate">${f.porte}</span></td>
+        <td><span class="status ${f.cls}">${f.statut}</span></td>
+      </tr>
+    `).join('');
+}
+ 
+function filterFlights() {
+  renderTable(DEPARTS, 'body-departs', 'depart');
+  renderTable(ARRIVEES, 'body-arrivees', 'arrivee');
+}
+ 
+filterFlights();
+ 
+// ─── TABS ───
+function showTab(tab, btn) {
+  const departs = document.getElementById('panel-departs');
+  const arrivees = document.getElementById('panel-arrivees');
+  const grid = document.getElementById('main-grid');
+ 
+  // On wide screens keep both visible; on narrow toggle
+  if (window.innerWidth <= 900) {
+    departs.style.display  = tab === 'departs'  ? '' : 'none';
+    arrivees.style.display = tab === 'arrivees' ? '' : 'none';
+  }
+ 
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+ 
+// On resize, restore both panels on wide screens
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) {
+    document.getElementById('panel-departs').style.display  = '';
+    document.getElementById('panel-arrivees').style.display = '';
+  }
+});
+ 
+// ─── CLOCK ───
+const DAYS = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MONTHS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+ 
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+ 
+  const day = DAYS[now.getDay()];
+  const date = now.getDate();
+  const month = MONTHS[now.getMonth()];
+  const year = now.getFullYear();
+  document.getElementById('clock-date').textContent = `${day} ${date} ${month} ${year}`;
+}
+ 
+updateClock();
+setInterval(updateClock, 1000);
+ 
+// ─── AUTO REFRESH SIMULATION ───
+// Every 45s, randomly toggle a flight status for realism
+setInterval(() => {
+  const randomDep = DEPARTS[Math.floor(Math.random() * DEPARTS.length)];
+  filterFlights();
+}, 45000);
+</script>
+</body>
+</html>
