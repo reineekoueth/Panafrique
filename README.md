@@ -1,4 +1,5 @@
-# ✈️ Panafrique – Flight Information
+# ✈️ Panafrique – Flight Information 
+* Application en ligne : 
 
 Panafrique est une application web qui simule un **Flight Information Display System (FIDS)**, permettant d'afficher les informations des vols en temps réel dans une interface claire, moderne et responsive.
 
